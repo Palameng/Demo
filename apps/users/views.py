@@ -15,16 +15,22 @@ import json
 # Create your views here.
 
 
+class IndexView(View):
+    def get(self, request):
+        return render(request, 'index.html', {
+
+        })
+
+
 class LoginView(View):
     def get(self, request):
 
-        return render(request, 'index.html', {
+        return render(request, 'login.html', {
 
         })
 
     def post(self, request):
         login_form = LoginForm(request.POST)    # 此处传入一个字典
-
         if login_form.is_valid():
             user_name = request.POST.get("username", "")
             pass_word = request.POST.get("password", "")
@@ -42,6 +48,15 @@ class LoginView(View):
             return render(request, "login.html", {"login_form": login_form})
 
 
+class LogoutView(View):
+    """
+    用户登出
+    """
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect(reverse("users:user_login"))
+
+
 class CustomBackend(ModelBackend):
     """
     当我们想要扩展校验条件时，可以重载authenticate方法，该方法需要：
@@ -52,6 +67,8 @@ class CustomBackend(ModelBackend):
         'users.views.CustomBackend',  #加入支持的类
 
         )
+
+    这里使用Q方法实现使用 邮箱/用户名 登录
     """
     def authenticate(self, username=None, password=None, **kwargs):
         try:

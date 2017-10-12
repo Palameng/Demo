@@ -17,10 +17,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.static import serve
 from Demos.settings import MEDIA_ROOT
+from users.views import IndexView
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    # index page
+    url('^$', IndexView.as_view(), name="index"),
 
     # User
     url(r'^users/', include('users.urls', namespace="users")),
