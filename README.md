@@ -8,3 +8,8 @@
 # 2017/10/12
 1）修改了Login页面，增加了index页面方便调试；  
 2）增加了退出功能，完善了登录功能，通过重载authenticate方法并结合使用Q方法，登录支持用户名和邮箱校验。  
+
+# 2017/10/15
+1）增加了app:relation用来测试一些model关系（one2one,one2many,many2many）；  
+2）解决了一个admin.py下，list_display[]中不能包含ManytoManyField的问题，该问题在SO上有解答https://stackoverflow.com/questions/18108521/many-to-many-in-list-display-django ，即声明一个方法去获取字段。  
+
