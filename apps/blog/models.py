@@ -17,6 +17,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_all_follow_article_nums(self):
+        return self.article_set.count()
+
 
 class Blog(models.Model):
     """
@@ -35,11 +38,23 @@ class Blog(models.Model):
         return self.topic
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=20, verbose_name=u"标签")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+
+    class Meta:
+        verbose_name = u"文章标签"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
     blog = models.ForeignKey(Blog, verbose_name=u"所属博客", null=True, blank=True)
     topic = models.CharField(max_length=100, verbose_name=u"标题")
     content = models.TextField(verbose_name="内容")
-    tag = models.CharField(max_length=20, verbose_name=u"标签")
+    tags = models.ManyToManyField(Tag, verbose_name="标签")
     category = models.ForeignKey(Category, verbose_name=u"类别", null=True, blank=True)
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
     modify_time = models.DateTimeField(default=datetime.now, verbose_name=u"修改时间")
@@ -51,3 +66,7 @@ class Article(models.Model):
 
     def __str__(self):
         return self.topic
+
+    def get_all_tags_name(self):
+        return "\n".join([tag.name for tag in self.tags.all()])
+

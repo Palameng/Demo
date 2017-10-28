@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Blog, Article
+from .models import Category, Blog, Article, Tag
 # Register your models here.
 
 
@@ -30,9 +30,18 @@ class ArticleAdmin(admin.ModelAdmin):
     modify_time = models.DateTimeField(default=datetime.now, verbose_name=u"修改时间")
     click_nums = models.IntegerField(default=0, verbose_name="点击数")
     """
-    list_display = ['topic', 'tag', 'category', 'add_time', 'modify_time', 'click_nums']
+    list_display = ['topic', 'get_all_tags_name', 'category', 'add_time', 'modify_time', 'click_nums']
+
+
+class TagAdmin(admin.ModelAdmin):
+    """
+    name = models.CharField(max_length=20, verbose_name=u"标签")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+    """
+    list_display = ['name', 'add_time']
 
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Tag, TagAdmin)
