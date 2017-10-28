@@ -11,5 +11,10 @@
 
 # 2017/10/15
 1）增加了app:relation用来测试一些model关系（one2one,one2many,many2many）；  
-2）解决了一个admin.py下，list_display[]中不能包含ManytoManyField的问题，该问题在SO上有解答https://stackoverflow.com/questions/18108521/many-to-many-in-list-display-django ，即声明一个方法去获取字段。  
+2）解决了一个admin.py下，list_display[]中不能包含ManytoManyField的问题，该问题在SF上有解答https://stackoverflow.com/questions/18108521/many-to-many-in-list-display-django ，即声明一个方法去获取字段。  
+
+# 2017/10/17
+1）调整了blog.model里的对象关系，增加了article用来描述具体文章；  
+2）使用markdown显示文章详情；  
+3）增加了首页跳转文章详情功能；  
 
