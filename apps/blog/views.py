@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views import View
-from .models import Article, Tag, Category
+from .models import Article, Tag, Category, MyModel
+from .forms import MyForm
 
 
 class IndexView(View):
@@ -61,4 +62,14 @@ class DetailView(View):
             "tags": tags,
             "flash_articles": flash_articles,
             "all_categorys": all_categorys,
+        })
+
+
+class ToTestMarkdownxView(View):
+    def get(self, request):
+        markdown_test = MyModel.objects.get(id=1)
+        form = MyForm()
+        return render(request, 'blog/test_markdownx.html', {
+            "markdown_test": markdown_test,
+            "form": form,
         })

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Category, Blog, Article, Tag
+from markdownx.admin import MarkdownxModelAdmin
+from .models import Category, Blog, Article, Tag, MyModel
 # Register your models here.
 
 
@@ -45,3 +46,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(MyModel, MarkdownxModelAdmin)

@@ -21,6 +21,9 @@ from users.views import IndexView
 
 
 urlpatterns = [
+
+    url(r'^markdownx/', include('markdownx.urls')),
+
     url(r'^admin/', admin.site.urls),
 
     # index page

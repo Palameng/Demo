@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from users.models import UserProfile
+from markdownx.models import MarkdownxField
 # Create your models here.
 
 
@@ -70,3 +71,10 @@ class Article(models.Model):
     def get_all_tags_name(self):
         return "\n".join([tag.name for tag in self.tags.all()])
 
+
+class MyModel(models.Model):
+    test = MarkdownxField()
+
+    class Meta:
+        verbose_name = u"Markdown测试"
+        verbose_name_plural = verbose_name
