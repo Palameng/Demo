@@ -67,9 +67,14 @@ class DetailView(View):
 
 class ToTestMarkdownxView(View):
     def get(self, request):
-        markdown_test = MyModel.objects.get(id=1)
+        # markdown_test = MyModel.objects.get(id=1)
+        # context = MyModel()
         form = MyForm()
+        # context.test = form.cleaned_data.get("test")
+        # context.save()
+
         return render(request, 'blog/test_markdownx.html', {
-            "markdown_test": markdown_test,
+            # "markdown_test": markdown_test,
             "form": form,
         })
+

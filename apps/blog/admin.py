@@ -1,5 +1,7 @@
 from django.contrib import admin
-from markdownx.admin import MarkdownxModelAdmin
+from django.db import models
+# from markdownx.admin import MarkdownxModelAdmin
+from markdownx.widgets import AdminMarkdownxWidget
 from .models import Category, Blog, Article, Tag, MyModel
 # Register your models here.
 
@@ -42,8 +44,14 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ['name', 'add_time']
 
 
+class MyModelAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Tag, TagAdmin)
-admin.site.register(MyModel, MarkdownxModelAdmin)
+admin.site.register(MyModel, MyModelAdmin)

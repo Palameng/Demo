@@ -78,3 +78,6 @@ class MyModel(models.Model):
     class Meta:
         verbose_name = u"Markdown测试"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.id
