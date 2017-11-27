@@ -54,12 +54,13 @@ class Tag(models.Model):
 class Article(models.Model):
     blog = models.ForeignKey(Blog, verbose_name=u"所属博客", null=True, blank=True)
     topic = models.CharField(max_length=100, verbose_name=u"标题")
-    content = models.TextField(verbose_name="内容")
+    content = MarkdownxField(verbose_name="内容")
     tags = models.ManyToManyField(Tag, verbose_name="标签")
     category = models.ForeignKey(Category, verbose_name=u"类别", null=True, blank=True)
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
     modify_time = models.DateTimeField(default=datetime.now, verbose_name=u"修改时间")
     click_nums = models.IntegerField(default=0, verbose_name="点击数")
+    comment_nums = models.IntegerField(verbose_name="评论数", default=0)
 
     class Meta:
         verbose_name = u"文章"
@@ -72,12 +73,19 @@ class Article(models.Model):
         return "\n".join([tag.name for tag in self.tags.all()])
 
 
-class MyModel(models.Model):
-    test = MarkdownxField()
+class Comment(models.Model):
+    user = models.ForeignKey(UserProfile, verbose_name=u"作者", null=True, blank=True)
+    article = models.ForeignKey(Article, verbose_name=u"作者", null=True, blank=True)
+    content = models.TextField(verbose_name="评论内容")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
 
-    class Meta:
-        verbose_name = u"Markdown测试"
-        verbose_name_plural = verbose_name
 
-    def __str__(self):
-        return self.id
+# class MyModel(models.Model):
+#     test = MarkdownxField()
+#
+#     class Meta:
+#         verbose_name = u"Markdown测试"
+#         verbose_name_plural = verbose_name
+#
+#     def __str__(self):
+#         return self.id

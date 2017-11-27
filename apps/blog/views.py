@@ -1,9 +1,11 @@
 import markdown
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views import View
-from .models import Article, Tag, Category, MyModel
+from .models import Article, Tag, Category
 from .forms import MyForm
 
 
@@ -78,3 +80,24 @@ class ToTestMarkdownxView(View):
             "form": form,
         })
 
+
+class WriteArticlePageView(View):
+    def get(self, request):
+        form = MyForm()
+        return render(request, 'blog/write_article.html', {
+            "form": form,
+        })
+
+
+class WriteArticleView(View):
+    def post(self, request):
+        form = MyForm(request.POST)
+        if form.is_valid():
+            article = Article()
+            article.content = form.cleaned_data.get("content")
+            article.topic = form.data.get("name")
+            article.save()
+            # print(text)
+        else:
+            pass
+        return HttpResponseRedirect(reverse("index"))

@@ -22,8 +22,10 @@ from users.views import IndexView
 
 urlpatterns = [
 
+    # Test markdownx
     url(r'^markdownx/', include('markdownx.urls')),
 
+    # admin
     url(r'^admin/', admin.site.urls),
 
     # index page
@@ -38,7 +40,7 @@ urlpatterns = [
     # 配置上传文件的访问处理函数
     url(r'^media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT}),
 
-    # 测试Ueditor
+    # Test Ueditor
     url(r'^ueditor/', include('DjangoUeditor.urls')),
 
 ]

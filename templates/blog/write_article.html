@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+<script type="text/javascript" src="/static/markdownx/js/markdownx.js"></script>
+{% block body_custom %}
+                <section class="comment-area" id="comment-area">
+                    <hr>
+                    <h3>标题</h3>
+                    <form action="{% url 'blogs:add_article' %}" method="post" class="comment-form">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <label for="id_name"></label>
+                                <input type="text" id="id_name" name="name" required>
+                            </div>
+                            <div class="col-md-12">
+                                    <div class="markdownx">
+                                        {{ form }}
+                                    </div>
+                                    <div class="markdownx">
+                                        {{ form.media }}
+                                    </div>
+                                <button type="submit" class="comment-btn">发表</button>
+                            </div>
+                        </div>    <!-- row -->
+                        {% csrf_token %}
+                    </form>
+                </section>
+{% endblock %}
