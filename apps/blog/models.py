@@ -75,10 +75,16 @@ class Article(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(UserProfile, verbose_name=u"作者", null=True, blank=True)
-    article = models.ForeignKey(Article, verbose_name=u"作者", null=True, blank=True)
+    article = models.ForeignKey(Article, verbose_name=u"文章", null=True, blank=True)
     content = models.TextField(verbose_name="评论内容")
     add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
 
+    class Meta:
+        verbose_name = u"评论"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.id)
 
 # class MyModel(models.Model):
 #     test = MarkdownxField()

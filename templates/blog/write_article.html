@@ -1,7 +1,9 @@
 {% extends 'blog/base.html' %}
 {% load staticfiles %}
-<script type="text/javascript" src="/static/markdownx/js/markdownx.js"></script>
 {% block body_custom %}
+    <div class="container">
+        <div class="row">
+            <main class="col-md-6">
                 <section class="comment-area" id="comment-area">
                     <hr>
                     <h3>标题</h3>
@@ -15,13 +17,21 @@
                                     <div class="markdownx">
                                         {{ form }}
                                     </div>
-                                    <div class="markdownx">
-                                        {{ form.media }}
-                                    </div>
+{#                                    <div class="markdownx">#}
+{#                                        {{ form.media }}#}
+{#                                    </div>#}
                                 <button type="submit" class="comment-btn">发表</button>
                             </div>
                         </div>    <!-- row -->
                         {% csrf_token %}
                     </form>
                 </section>
+            </main>
+            <aside class="col-md-6">
+                    <div class="col-md-6">
+                            <script type="text/javascript" src="/static/markdownx/js/markdownx.js"></script>
+                    </div>
+            </aside>
+        </div>
+    </div>
 {% endblock %}

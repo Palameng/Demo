@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 # from markdownx.admin import MarkdownxModelAdmin
 from markdownx.widgets import AdminMarkdownxWidget
-from .models import Category, Blog, Article, Tag
+from .models import Category, Blog, Article, Tag, Comment
 # Register your models here.
 
 
@@ -44,6 +44,15 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ['name', 'add_time']
 
 
+class CommentAdmin(admin.ModelAdmin):
+    """
+    user = models.ForeignKey(UserProfile, verbose_name=u"作者", null=True, blank=True)
+    article = models.ForeignKey(Article, verbose_name=u"文章", null=True, blank=True)
+    content = models.TextField(verbose_name="评论内容")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+    """
+    list_display = ['user', 'article', 'add_time']
+
 # class MyModelAdmin(admin.ModelAdmin):
 #     formfield_overrides = {
 #         models.TextField: {'widget': AdminMarkdownxWidget},
@@ -54,4 +63,5 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(Comment, CommentAdmin)
 # admin.site.register(MyModel, MyModelAdmin)

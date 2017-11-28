@@ -4,18 +4,18 @@
     <div class="container">
         <div class="row">
             <main class="col-md-8">
-                {% for article in all_articles %}
+                {% for article in all_articles.object_list %}
                     <article class="post post-1">
                     <header class="entry-header">
                         <h1 class="entry-title">
-                            <a href="single.html">{{ article.topic }}</a>
+                            <a href="{% url 'blogs:article_detail' article.id %}">{{ article.topic }}</a>
                         </h1>
                         <div class="entry-meta">
                             <span class="post-category"><a href="#">{{ article.category.name }}</a></span>
                             <span class="post-date"><a href="#"><time class="entry-date"
                                                                       datetime="{{ article.add_time }}">{{ article.add_time }}</time></a></span>
                             <span class="post-author"><a href="#">{{ article.blog.author }}</a></span>
-                            <span class="comments-link"><a href="#">4 评论</a></span>
+                            <span class="comments-link"><a href="#">{{ article.comment_nums }} 评论</a></span>
                             <span class="views-count"><a href="#">{{ article.click_nums }} 阅读</a></span>
                         </div>
                     </header>
@@ -34,17 +34,25 @@
                     <a href="#">下一页</a>
                 </div>
                 -->
-                <div class="pagination">
-                    <ul>
-                        <li><a href="">1</a></li>
-                        <li><a href="">...</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li class="current"><a href="">6</a></li>
-                        <li><a href="">7</a></li>
-                        <li><a href="">8</a></li>
-                        <li><a href="">...</a></li>
-                        <li><a href="">11</a></li>
+                 <div class="pageturn">
+                    <ul class="pagelist">
+                            {% if all_articles.has_previous %}
+                                <li class="long"><a href="?{{ all_articles.previous_page_number.querystring }}">上一页</a></li>
+                            {% endif %}
+                            {% for page in all_articles.pages %}
+                                {% if page %}
+                                    {% ifequal page all_articles.number %}
+                                        <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                    {% endifequal %}
+                                {% else %}
+                                    <li class="none"><a href="">...</a> </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if all_articles.has_next %}
+                                <li class="long"><a href="?{{ all_articles.next_page_number.querystring }}">下一页</a></li>
+                            {% endif %}
                     </ul>
                 </div>
             </main>

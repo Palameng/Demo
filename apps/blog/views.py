@@ -1,12 +1,14 @@
 import markdown
+from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 # Create your views here.
 from django.views import View
-from .models import Article, Tag, Category
+from .models import Article, Tag, Category, Comment
 from .forms import MyForm
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 
 class IndexView(View):
@@ -18,6 +20,16 @@ class IndexView(View):
         # 获取所有文章
         all_articles = Article.objects.all()
 
+        # 对所有A进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        # 第二个参数代表每一页显示的个数
+        p = Paginator(all_articles, 2, request=request)
+        articles = p.page(page)
+
         # 获取标签
         tags = Tag.objects.all()
 
@@ -25,10 +37,10 @@ class IndexView(View):
         all_categorys = Category.objects.all()
 
         # 获取最新文章
-        flash_articles = Article.objects.all().order_by('add_time')[:3]
+        flash_articles = Article.objects.all().order_by('-add_time')[:3]
 
         return render(request, 'blog/index.html', {
-            "all_articles": all_articles,
+            "all_articles": articles,
             "all_categorys": all_categorys,
             "tags": tags,
             "flash_articles": flash_articles,
@@ -53,17 +65,26 @@ class DetailView(View):
         # 获取分类
         all_categorys = Category.objects.all()
 
+        # 获取评论
+        all_article_comment = Comment.objects.filter(article_id=int(article_id))
+        comment_nums = all_article_comment.count()
+        post.comment_nums = comment_nums
+
         # 引入 markdown 模块
         post.content = markdown.markdown(post.content, extensions=[
                                           'markdown.extensions.extra',
                                           'markdown.extensions.codehilite',
                                           'markdown.extensions.toc',
                                       ])
+
+        post.save()
+
         return render(request, 'blog/single.html', {
             "post": post,
             "tags": tags,
             "flash_articles": flash_articles,
             "all_categorys": all_categorys,
+            "all_article_comment": all_article_comment,
         })
 
 
