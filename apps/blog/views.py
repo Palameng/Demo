@@ -79,7 +79,7 @@ class DetailView(View):
 
         post.save()
 
-        return render(request, 'blog/single.html', {
+        return render(request, 'blog/markdownToc.html', {
             "post": post,
             "tags": tags,
             "flash_articles": flash_articles,
@@ -115,9 +115,13 @@ class WriteArticleView(View):
         form = MyForm(request.POST)
         if form.is_valid():
             article = Article()
+            tag = Tag()
             article.content = form.cleaned_data.get("content")
             article.topic = form.data.get("name")
+            tag.name = form.data.get("tag")
+            tag.save()
             article.save()
+            article.tags.add(tag)
             # print(text)
         else:
             pass
