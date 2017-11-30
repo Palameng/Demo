@@ -11,9 +11,45 @@ from .forms import MyForm
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 
+class MainIndexView(View):
+    """
+    博客主首页
+    """
+    def get(self, request):
+
+        # 获取所有文章
+        all_articles = Article.objects.all().order_by('-add_time')
+
+        # 对所有A进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        # 第二个参数代表每一页显示的个数
+        p = Paginator(all_articles, 3, request=request)
+        articles = p.page(page)
+
+        # 获取标签
+        # tags = Tag.objects.all()
+
+        # 获取分类
+        # all_categorys = Category.objects.all()
+
+        # 获取最新文章
+        # flash_articles = Article.objects.all().order_by('-add_time')[:3]
+
+        return render(request, 'blog/full-width.html', {
+            "all_articles": articles,
+            # "all_categorys": all_categorys,
+            # "tags": tags,
+            # "flash_articles": flash_articles,
+        })
+
+
 class IndexView(View):
     """
-    博客首页
+    博客个人首页
     """
     def get(self, request):
 
@@ -27,7 +63,7 @@ class IndexView(View):
             page = 1
 
         # 第二个参数代表每一页显示的个数
-        p = Paginator(all_articles, 2, request=request)
+        p = Paginator(all_articles, 3, request=request)
         articles = p.page(page)
 
         # 获取标签

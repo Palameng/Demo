@@ -1,7 +1,8 @@
 from django.conf.urls import url, include
-from blog.views import IndexView, DetailView, ToTestMarkdownxView, WriteArticlePageView, WriteArticleView
+from blog.views import IndexView, DetailView, ToTestMarkdownxView, WriteArticlePageView, WriteArticleView, MainIndexView
 
 urlpatterns = [
+    url(r'^main/$', MainIndexView.as_view(), name='blog_main'),
     url(r'^index/$', IndexView.as_view(), name='blog_index'),
     url(r'^detail/(?P<article_id>\d+)/$', DetailView.as_view(), name='article_detail'),
     url(r'^test_markdown/$', ToTestMarkdownxView.as_view(), name='blog_test_markdown'),
