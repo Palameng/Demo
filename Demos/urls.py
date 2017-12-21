@@ -43,4 +43,7 @@ urlpatterns = [
     # Test Ueditor
     url(r'^ueditor/', include('DjangoUeditor.urls')),
 
+    # Relation
+url(r'^relation/', include('relation.urls', namespace="relation")),
+
 ]
